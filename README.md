@@ -20,9 +20,9 @@ Results should look like the following:
 
 ```
 Benchmark                                                                         Mode  Cnt           Score           Error  Units
-BenchmarkRun.Immutable_Without_Reflection                                        thrpt   10  76 932 127,852 ±   773 215,367  ops/s
+ BenchmarkRun.Immutable_DirectCall                                                thrpt   10  76 932 127,852 ±   773 215,367  ops/s
 BenchmarkRun.Mutable_With_JDK_MethodHandles_invokeExact                          thrpt   10  76 234 552,469 ±   761 856,334  ops/s
-BenchmarkRun.Mutable_Without_Reflection                                          thrpt   10  76 214 207,416 ± 1 893 662,512  ops/s
+BenchmarkRun.Mutable_DirectCall                                                  thrpt   10  76 214 207,416 ± 1 893 662,512  ops/s
 BenchmarkRun.Mutable_With_ReflectASM_MethodAccess                                thrpt   10  76 123 880,308 ± 2 023 361,235  ops/s
 BenchmarkRun.Mutable_With_ReflectASM_FieldAccess                                 thrpt   10  75 478 988,092 ± 4 008 926,808  ops/s
 BenchmarkRun.Mutable_With_JDK_MethodHandles_UnreflectField_invokeExact           thrpt   10  74 269 497,913 ± 5 316 919,147  ops/s

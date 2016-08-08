@@ -83,13 +83,13 @@ public class BenchmarkRun {
 	}
 
 	@Benchmark
-	public Object[] Immutable_Without_Reflection() {
-		return _No_Reflection(newImmutablePerson());
+	public Object[] Immutable_DirectCall() {
+		return directCall(newImmutablePerson());
 	}
 
 	@Benchmark
-	public Object[] Mutable_Without_Reflection() {
-		return _No_Reflection(newMutablePerson());
+	public Object[] Mutable_DirectCall() {
+		return directCall(newMutablePerson());
 	}
 
 	@Benchmark
@@ -150,7 +150,7 @@ public class BenchmarkRun {
 		return person;
 	}
 
-	private Object[] _No_Reflection(Person person) {
+	private Object[] directCall(Person person) {
 		String o = person.getFirstName();
 		String o1 = person.getLastName();
 		Date o2 = person.getBirthDate();
