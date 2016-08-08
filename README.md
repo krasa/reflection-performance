@@ -19,17 +19,19 @@ Be prepared to wait for some time.
 Results should look like the following:
 
 ```
-Benchmark                                                                Mode  Cnt           Score          Error  Units
-BenchmarkRun.Mutable_Without_Reflection                                 thrpt   20  4371718549,905 ± 16661759,981  ops/s
-BenchmarkRun.Immutable_Without_Reflection                               thrpt   20  4355936723,612 ± 38472158,668  ops/s
-BenchmarkRun.Mutable_With_ReflectASM_FieldAccess                        thrpt   20   434858277,833 ±  4880516,197  ops/s
-BenchmarkRun.Mutable_With_ReflectASM_MethodAccess                       thrpt   20   272707071,354 ±  3500477,663  ops/s
-BenchmarkRun.Mutable_With_Reflection                                    thrpt   20   111304786,764 ±  1340032,669  ops/s
-BenchmarkRun.Immutable_With_Reflection                                  thrpt   20   107369247,621 ±  2025100,731  ops/s
-BenchmarkRun.Mutable_With_JDK_MethodHandles                             thrpt   20    77192337,545 ±   440805,042  ops/s
-BenchmarkRun.Mutable_With_JDK_MethodHandles_UnreflectField              thrpt   20    73985116,254 ±   387612,101  ops/s
-BenchmarkRun.Mutable_With_JDK_MethodHandles_invokeExact                 thrpt   20     6441266,338 ±    32570,237  ops/s
-BenchmarkRun.Mutable_With_JDK_MethodHandles_UnreflectField_invokeExact  thrpt   20     6417387,952 ±    29474,687  ops/s
+
+
+Benchmark                                                                Mode  Cnt          Score         Error  Units
+BenchmarkRun.Immutable_Without_Reflection                               thrpt   20  102 214 799,142 ± 1146143,316  ops/s
+BenchmarkRun.Mutable_Without_Reflection                                 thrpt   20  101 962 026,052 ±  769921,913  ops/s
+BenchmarkRun.Mutable_With_ReflectASM_FieldAccess                        thrpt   20   91 149 819,205 ±  167487,740  ops/s
+BenchmarkRun.Mutable_With_ReflectASM_MethodAccess                       thrpt   20   89 414 320,276 ±   94895,259  ops/s
+BenchmarkRun.Immutable_With_Reflection                                  thrpt   20   60 196 592,871 ±  479156,501  ops/s
+BenchmarkRun.Mutable_With_Reflection                                    thrpt   20   57 873 746,873 ± 1229671,008  ops/s
+BenchmarkRun.Mutable_With_JDK_MethodHandles_UnreflectField              thrpt   20   49 353 822,681 ±  200844,605  ops/s
+BenchmarkRun.Mutable_With_JDK_MethodHandles                             thrpt   20   48 749 285,928 ±  584271,048  ops/s
+BenchmarkRun.Mutable_With_JDK_MethodHandles_UnreflectField_invokeExact  thrpt   20    5 738 302,708 ±   26142,697  ops/s
+BenchmarkRun.Mutable_With_JDK_MethodHandles_invokeExact                 thrpt   20    5 302 336,161 ±   17880,870  ops/s
 
 ```
 

@@ -15,7 +15,6 @@ import com.esotericsoftware.reflectasm.MethodAccess;
 
 @State(Scope.Benchmark)
 public class BenchmarkRun {
-	private static final Date DATE = new Date();
 	private FieldAccess fieldAccess;
 	private Field birthDate;
 	private Field birthDate_Mutable;
@@ -126,14 +125,15 @@ public class BenchmarkRun {
 	}
 
 	private ImmutablePerson newImmutablePerson() {
-		return new ImmutablePerson("John", "Doe", DATE);
+		return new ImmutablePerson("John", "Doe", new Date());
 	}
 
 	private MutablePerson newMutablePerson() {
 		MutablePerson person = new MutablePerson();
 		person.setFirstName("John");
 		person.setLastName("Doe");
-		person.setBirthDate(DATE);
+		// very important to not make this a constant - it makes the run 40x faster for direct calls
+		person.setBirthDate(new Date());
 		return person;
 	}
 
