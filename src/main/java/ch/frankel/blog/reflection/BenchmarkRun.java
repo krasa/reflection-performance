@@ -104,19 +104,21 @@ public class BenchmarkRun {
 	public void Mutable_With_ReflectASM_MethodAccess() throws Exception {
 		_ReflectASM_MethodAccess(newMutablePerson());
 	}
-    @Benchmark
+
+	@Benchmark
 	public void Mutable_With_JDK_MethodHandles() throws Throwable {
 		_MethodHandles(newMutablePerson());
-    }
+	}
 
 	@Benchmark
 	public void Mutable_With_JDK_MethodHandles_UnreflectField() throws Throwable {
 		_MethodHandles_UnreflectField(newMutablePerson());
 	}
-    @Benchmark
+
+	@Benchmark
 	public void Mutable_With_JDK_MethodHandles_invokeExact() throws Throwable {
 		_MethodHandles_invokeExact(newMutablePerson());
-    }
+	}
 
 	@Benchmark
 	public void Mutable_With_JDK_MethodHandles_UnreflectField_invokeExact() throws Throwable {
@@ -125,15 +127,15 @@ public class BenchmarkRun {
 
 	private ImmutablePerson newImmutablePerson() {
 		return new ImmutablePerson("John", "Doe", DATE);
-    }
+	}
 
 	private MutablePerson newMutablePerson() {
-        MutablePerson person = new MutablePerson();
-        person.setFirstName("John");
-        person.setLastName("Doe");
+		MutablePerson person = new MutablePerson();
+		person.setFirstName("John");
+		person.setLastName("Doe");
 		person.setBirthDate(DATE);
-        return person;
-    }
+		return person;
+	}
 
 	private void _No_Reflection(Person person) {
 		String firstName = person.getFirstName();
@@ -142,7 +144,7 @@ public class BenchmarkRun {
 		if (firstName == null || lastName == null || birthDate == null) {
 			throw new RuntimeException();
 		}
-    }
+	}
 
 	private void _Reflection(ImmutablePerson person) throws Exception {
 		Object o = firstName.get(person);
@@ -160,7 +162,7 @@ public class BenchmarkRun {
 		Object o2 = birthDate_Mutable.get(person);
 		if (o == null || o1 == null || o2 == null) {
 			throw new RuntimeException();
-        }
+		}
 	}
 
 	private void _ReflectASM_FieldAcces(MutablePerson person) throws Exception {
@@ -170,7 +172,7 @@ public class BenchmarkRun {
 		if (o == null || o1 == null || o2 == null) {
 			throw new RuntimeException();
 		}
-    }
+	}
 
 	private void _ReflectASM_MethodAccess(MutablePerson person) {
 		Object o = methodAccess.invoke(person, firstName_Method);
@@ -181,7 +183,6 @@ public class BenchmarkRun {
 		}
 
 	}
-
 
 	private void _MethodHandles(MutablePerson person) throws Throwable {
 		Object o = getFirstName_Handle.invoke(person);
