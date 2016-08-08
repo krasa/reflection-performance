@@ -77,45 +77,50 @@ public class BenchmarkRun {
 
 	@Benchmark
 	public void Immutable_Without_Reflection() {
-		getWithoutReflection(newImmutablePerson());
+		_No_Reflection(newImmutablePerson());
 	}
 
 	@Benchmark
 	public void Mutable_Without_Reflection() {
-		getWithoutReflection(newMutablePerson());
+		_No_Reflection(newMutablePerson());
 	}
 
 	@Benchmark
 	public void Immutable_With_Reflection() throws Exception {
-		getWithReflection(newImmutablePerson());
+		_Reflection(newImmutablePerson());
 	}
 
 	@Benchmark
 	public void Mutable_With_Reflection() throws Exception {
-		getWithReflection(newMutablePerson());
+		_Reflection(newMutablePerson());
 	}
 
 	@Benchmark
 	public void Mutable_With_ReflectASM_FieldAccess() throws Exception {
-		getWithReflectASM(newMutablePerson());
+		_ReflectASM_FieldAcces(newMutablePerson());
 	}
 
 	@Benchmark
 	public void Mutable_With_ReflectASM_MethodAccess() throws Exception {
-		getWithReflectASM_MethodAccess(newMutablePerson());
+		_ReflectASM_MethodAccess(newMutablePerson());
 	}
     @Benchmark
 	public void Mutable_With_JDK_MethodHandles() throws Throwable {
-		getWithMethodHandles(newMutablePerson());
-    }
-    @Benchmark
-	public void Mutable_With_JDK_MethodHandles_invokeExact() throws Throwable {
-		getWithMethodHandlesExact(newMutablePerson());
+		_MethodHandles(newMutablePerson());
     }
 
 	@Benchmark
 	public void Mutable_With_JDK_MethodHandles_UnreflectField() throws Throwable {
-		getWithMethodHandles_UnreflectField(newMutablePerson());
+		_MethodHandles_UnreflectField(newMutablePerson());
+	}
+    @Benchmark
+	public void Mutable_With_JDK_MethodHandles_invokeExact() throws Throwable {
+		_MethodHandles_invokeExact(newMutablePerson());
+    }
+
+	@Benchmark
+	public void Mutable_With_JDK_MethodHandles_UnreflectField_invokeExact() throws Throwable {
+		_MethodHandles_UnreflectField_invokeExact(newMutablePerson());
 	}
 
 	private ImmutablePerson newImmutablePerson() {
@@ -130,7 +135,7 @@ public class BenchmarkRun {
         return person;
     }
 
-    private void getWithoutReflection(Person person) {
+	private void _No_Reflection(Person person) {
 		String firstName = person.getFirstName();
 		String lastName = person.getLastName();
 		Date birthDate = person.getBirthDate();
@@ -139,7 +144,7 @@ public class BenchmarkRun {
 		}
     }
 
-	private void getWithReflection(ImmutablePerson person) throws Exception {
+	private void _Reflection(ImmutablePerson person) throws Exception {
 		Object o = firstName.get(person);
 		Object o1 = lastName.get(person);
 		Object o2 = birthDate.get(person);
@@ -149,7 +154,7 @@ public class BenchmarkRun {
 		}
 	}
 
-	private void getWithReflection(MutablePerson person) throws Exception {
+	private void _Reflection(MutablePerson person) throws Exception {
 		Object o = firstName_Mutable.get(person);
 		Object o1 = lastName_Mutable.get(person);
 		Object o2 = birthDate_Mutable.get(person);
@@ -158,7 +163,7 @@ public class BenchmarkRun {
         }
 	}
 
-	private void getWithReflectASM(MutablePerson person) throws Exception {
+	private void _ReflectASM_FieldAcces(MutablePerson person) throws Exception {
 		Object o = fieldAccess.get(person, firstName_Field);
 		Object o1 = fieldAccess.get(person, lastName_Field);
 		Object o2 = fieldAccess.get(person, birthDate_Field);
@@ -167,7 +172,7 @@ public class BenchmarkRun {
 		}
     }
 
-	private void getWithReflectASM_MethodAccess(MutablePerson person) {
+	private void _ReflectASM_MethodAccess(MutablePerson person) {
 		Object o = methodAccess.invoke(person, firstName_Method);
 		Object o1 = methodAccess.invoke(person, lastName_Method);
 		Object o2 = methodAccess.invoke(person, birthDate_Method);
@@ -177,16 +182,8 @@ public class BenchmarkRun {
 
 	}
 
-	private void getWithMethodHandlesExact(MutablePerson person) throws Throwable {
-		String o = (String) getFirstName_Handle.bindTo(person).invokeExact();
-		String o1 = (String) getLastName_Handle.bindTo(person).invokeExact();
-		Date o2 = (Date) getBirthDate_Handle.bindTo(person).invokeExact();
-		if (o == null || o1 == null || o2 == null) {
-			throw new RuntimeException();
-		}
-	}
 
-	private void getWithMethodHandles(MutablePerson person) throws Throwable {
+	private void _MethodHandles(MutablePerson person) throws Throwable {
 		Object o = getFirstName_Handle.invoke(person);
 		Object o1 = getLastName_Handle.invoke(person);
 		Object o2 = getBirthDate_Handle.invoke(person);
@@ -195,10 +192,28 @@ public class BenchmarkRun {
 		}
 	}
 
-	private void getWithMethodHandles_UnreflectField(MutablePerson person) throws Throwable {
+	private void _MethodHandles_UnreflectField(MutablePerson person) throws Throwable {
 		Object o = getFirstName_Handle_UnreflectGetter.invoke(person);
 		Object o1 = getLastName_Handle_UnreflectGetter.invoke(person);
 		Object o2 = getBirthDate_Handle_UnreflectGetter.invoke(person);
+		if (o == null || o1 == null || o2 == null) {
+			throw new RuntimeException();
+		}
+	}
+
+	private void _MethodHandles_invokeExact(MutablePerson person) throws Throwable {
+		String o = (String) getFirstName_Handle.bindTo(person).invokeExact();
+		String o1 = (String) getLastName_Handle.bindTo(person).invokeExact();
+		Date o2 = (Date) getBirthDate_Handle.bindTo(person).invokeExact();
+		if (o == null || o1 == null || o2 == null) {
+			throw new RuntimeException();
+		}
+	}
+
+	private void _MethodHandles_UnreflectField_invokeExact(MutablePerson person) throws Throwable {
+		String o = (String) getFirstName_Handle_UnreflectGetter.bindTo(person).invokeExact();
+		String o1 = (String) getLastName_Handle_UnreflectGetter.bindTo(person).invokeExact();
+		Date o2 = (Date) getBirthDate_Handle_UnreflectGetter.bindTo(person).invokeExact();
 		if (o == null || o1 == null || o2 == null) {
 			throw new RuntimeException();
 		}
