@@ -203,18 +203,18 @@ public class BenchmarkRun {
 	}
 
 	private void _MethodHandles_invokeExact(MutablePerson person) throws Throwable {
-		String o = (String) getFirstName_Handle.bindTo(person).invokeExact();
-		String o1 = (String) getLastName_Handle.bindTo(person).invokeExact();
-		Date o2 = (Date) getBirthDate_Handle.bindTo(person).invokeExact();
+		String o = (String) getFirstName_Handle.invokeExact(person);
+		String o1 = (String) getLastName_Handle.invokeExact(person);
+		Date o2 = (Date) getBirthDate_Handle.invokeExact(person);
 		if (o == null || o1 == null || o2 == null) {
 			throw new RuntimeException();
 		}
 	}
 
 	private void _MethodHandles_UnreflectField_invokeExact(MutablePerson person) throws Throwable {
-		String o = (String) getFirstName_Handle_UnreflectGetter.bindTo(person).invokeExact();
-		String o1 = (String) getLastName_Handle_UnreflectGetter.bindTo(person).invokeExact();
-		Date o2 = (Date) getBirthDate_Handle_UnreflectGetter.bindTo(person).invokeExact();
+		String o = (String) getFirstName_Handle_UnreflectGetter.invokeExact(person);
+		String o1 = (String) getLastName_Handle_UnreflectGetter.invokeExact(person);
+		Date o2 = (Date) getBirthDate_Handle_UnreflectGetter.invokeExact(person);
 		if (o == null || o1 == null || o2 == null) {
 			throw new RuntimeException();
 		}
