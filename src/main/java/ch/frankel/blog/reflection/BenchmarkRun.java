@@ -15,7 +15,6 @@ import com.esotericsoftware.reflectasm.MethodAccess;
 
 @State(Scope.Benchmark)
 public class BenchmarkRun {
-	private static final FieldAccess fieldAccess;
 	private static final Field birthDate;
 	private static final Field birthDate_Mutable;
 	private static final Field firstName;
@@ -26,6 +25,7 @@ public class BenchmarkRun {
 	private static final MethodHandle getBirthDate_Handle;
 	private static final MethodHandle getBirthDate_Handle_UnreflectGetter;
 	private static final MethodHandle getFirstName_Handle;
+	private static final MethodHandle getFirstName_Handle_UnreflectGetter;
 	private static final MethodHandle getLastName_Handle;
 	private static final MethodHandle getLastName_Handle_UnreflectGetter;
 	private static final int birthDate_Field;
@@ -34,7 +34,11 @@ public class BenchmarkRun {
 	private static final int firstName_Method;
 	private static final int lastName_Field;
 	private static final int lastName_Method;
-	private static final MethodHandle getFirstName_Handle_UnreflectGetter;
+	private static final FieldAccess fieldAccess;
+
+	private static MethodHandle getFirstName_Handle_UnreflectGetter_nonFinal;
+	private static MethodHandle getLastName_Handle_UnreflectGetter_nonFinal;
+	private static MethodHandle getBirthDate_Handle_UnreflectGetter_nonFinal;
 
 	static {
 		try {
@@ -69,6 +73,10 @@ public class BenchmarkRun {
 			getFirstName_Handle_UnreflectGetter = lookup.unreflectGetter(firstName_Mutable);
 			getLastName_Handle_UnreflectGetter = lookup.unreflectGetter(lastName_Mutable);
 			getBirthDate_Handle_UnreflectGetter = lookup.unreflectGetter(birthDate_Mutable);
+
+			getFirstName_Handle_UnreflectGetter_nonFinal = lookup.unreflectGetter(firstName_Mutable);
+			getLastName_Handle_UnreflectGetter_nonFinal = lookup.unreflectGetter(lastName_Mutable);
+			getBirthDate_Handle_UnreflectGetter_nonFinal = lookup.unreflectGetter(birthDate_Mutable);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -122,6 +130,11 @@ public class BenchmarkRun {
 	@Benchmark
 	public Object[] Mutable_With_JDK_MethodHandles_UnreflectField_invokeExact() throws Throwable {
 		return _MethodHandles_UnreflectField_invokeExact(newMutablePerson());
+	}
+
+	@Benchmark
+	public Object[] Mutable_With_JDK_nonFinal_MethodHandles_UnreflectField_invokeExact() throws Throwable {
+		return _MethodHandles_UnreflectField_invokeExact_nonFinal(newMutablePerson());
 	}
 
 	private ImmutablePerson newImmutablePerson() {
@@ -200,6 +213,13 @@ public class BenchmarkRun {
 		String o = (String) getFirstName_Handle_UnreflectGetter.invokeExact(person);
 		String o1 = (String) getLastName_Handle_UnreflectGetter.invokeExact(person);
 		Date o2 = (Date) getBirthDate_Handle_UnreflectGetter.invokeExact(person);
+		return new Object[] { o, o1, o2 };
+	}
+
+	private Object[] _MethodHandles_UnreflectField_invokeExact_nonFinal(MutablePerson person) throws Throwable {
+		String o = (String) getFirstName_Handle_UnreflectGetter_nonFinal.invokeExact(person);
+		String o1 = (String) getLastName_Handle_UnreflectGetter_nonFinal.invokeExact(person);
+		Date o2 = (Date) getBirthDate_Handle_UnreflectGetter_nonFinal.invokeExact(person);
 		return new Object[] { o, o1, o2 };
 	}
 }
